@@ -1,0 +1,34 @@
+#!/bin/bash -l
+# The name of the script is myjob
+
+#SBATCH -A m.2017-1-167
+#SBATCH -J bcpnn_test_job
+
+# Only 1 hour wall-clock time will be given to this job
+#SBATCH -t 0:10:00
+
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=2 #should be 32
+
+#SBATCH -e error_file.e
+#SBATCH -o output_file.o
+
+
+module swap PrgEnv-cray PrgEnv-gnu
+module add python/2.7.13 site-python/2.7
+module add nest/2.2.2-py27
+
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/cfs/klemming/nobackup/f/fiebig/170501_Beskow_BCPNN/build-module-100725
+export PYTHONPATH=/pdc/vol/nest/2.2.2-py27/lib/python2.7/site-packages:/pdc/vol/python/2.7.13-gnu/lib/python2.7/site-packages
+
+# Run and write the output into my_output_file
+aprun -n 2 python test_installation_beskow.py > delme_test_installation 2>&1
+echo "Stopping test 1 at `date`"
+
+echo "Starting test 2 at `date`"
+aprun -n 2 python test.py > delme_test_connect 2>&1
+echo "Stopping test 2 at `date`"
+
+
+
+
