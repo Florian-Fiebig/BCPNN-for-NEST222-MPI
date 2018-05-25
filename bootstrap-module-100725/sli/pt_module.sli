@@ -1,0 +1,14 @@
+/* 
+ * Initialization file for Pt_Module.
+ * Run automatically when Pt_Module is loaded.
+ */
+
+M_DEBUG (pt_module.sli) (Initializing SLI support for Pt_Module.) message
+
+/pt_module /SLI ($Revision: 7918 $) provide-component
+/pt_module /C++ (7165) require-component
+
+/StepPatternConnect [ /arraytype /integertype /arraytype /integertype /literaltype ]
+{ 
+  StepPatternConnect_Vi_i_Vi_i_l
+} def
